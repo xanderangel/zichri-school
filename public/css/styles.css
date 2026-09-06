@@ -1,0 +1,802 @@
+:root {
+  --blue-900: #1e3a8a;
+  --blue-700: #1d4ed8;
+  --blue-600: #2563eb;
+  --blue-500: #3b82f6;
+  --blue-100: #dbeafe;
+  --blue-50: #eff6ff;
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-500: #64748b;
+  --gray-700: #334155;
+  --gray-900: #0f172a;
+  --green-600: #16a34a;
+  --amber-500: #d97706;
+  --red-600: #dc2626;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 10px rgba(30, 58, 138, 0.08);
+  --sidebar-width: 232px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Clear, visible keyboard-focus state on every interactive element —
+   buttons in this app suppress the browser default (custom backgrounds,
+   border:none), so this is what actually satisfies "keyboard navigation
+   on desktop" / "clear focus states" rather than just mouse styling. */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 2.5px solid var(--blue-600);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- App shell ----------
+   #app is fluid at every realistic phone/tablet/laptop width and only
+   caps out on very large monitors (so content doesn't stretch edge to
+   edge on a 27" screen) — this replaces the old fixed 480/720px column
+   that made the whole app look like a phone mockup regardless of the
+   actual viewport. */
+#app {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+@media (min-width: 1024px) { #app { box-shadow: var(--shadow); } }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-600));
+  color: var(--white);
+  padding: 14px 16px 10px;
+}
+@media (min-width: 768px) { .topbar { padding: 16px 32px 12px; } }
+@media (min-width: 1024px) { .topbar { padding: 18px 40px 14px; } }
+
+.topbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.topbar-school {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+}
+@media (min-width: 1024px) { .topbar-school { font-size: 19px; } }
+
+.topbar-icons { display: flex; gap: 10px; align-items: center; }
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.18);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--red-600);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--blue-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.search-bar {
+  margin-top: 12px;
+  background: var(--white);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 8px;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 1024px) { .search-bar { max-width: 560px; margin-top: 14px; } }
+.search-bar input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 15px;
+  color: var(--gray-900);
+  min-width: 0;
+}
+
+/* ---------- Content ---------- */
+.content { flex: 1; padding: 16px 16px 90px; }
+@media (min-width: 768px) { .content { padding: 22px 32px 90px; } }
+@media (min-width: 1024px) {
+  .content { padding: 28px 40px 48px; margin-left: var(--sidebar-width); }
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue-900);
+  margin: 20px 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.section-title .see-all { font-size: 13px; color: var(--blue-600); font-weight: 600; }
+
+.hscroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x proximity;
+}
+.hscroll::-webkit-scrollbar { display: none; }
+/* At tablet+ widths there's enough room to just show cards in a wrapping
+   row instead of forcing horizontal scroll — the same markup adapts via
+   flex-wrap, no JS change needed. */
+@media (min-width: 640px) {
+  .hscroll { flex-wrap: wrap; overflow-x: visible; scroll-snap-type: none; }
+  .hscroll .person-card { flex: 1 1 150px; max-width: 180px; }
+}
+
+/* ---------- Cards ---------- */
+.person-card {
+  scroll-snap-align: start;
+  min-width: 130px;
+  background: var(--blue-50);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  text-align: center;
+  border: 1px solid var(--blue-100);
+}
+/* This is a standalone, reusable class — used everywhere a circular
+   profile picture appears (dashboards, profile pages, list rows), not
+   only inside a .person-card. It must not require that as an ancestor:
+   without overflow:hidden and the img sizing rule below, a raw
+   full-resolution photo has nothing constraining it and renders at its
+   native size, spilling out past whatever small box it's supposed to
+   sit in. Any inline width/height/font-size set where it's used (e.g.
+   a larger 72px version on a profile page) correctly overrides just
+   those properties, while still inheriting the shape/clipping here. */
+.avatar-lg {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--blue-600);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0 auto 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.avatar-lg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.person-card .name { font-weight: 600; font-size: 13.5px; line-height: 1.25; }
+.person-card .meta { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+.status-pill {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.status-VERIFIED { background: #dcfce7; color: var(--green-600); }
+.status-PENDING { background: #fef3c7; color: var(--amber-500); }
+.status-REJECTED, .status-REMOVED { background: #fee2e2; color: var(--red-600); }
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+
+.spreadsheet-card { display: flex; justify-content: space-between; align-items: center; }
+.spreadsheet-card .title { font-weight: 700; font-size: 14.5px; color: var(--blue-900); }
+.spreadsheet-card .sub { font-size: 12.5px; color: var(--gray-500); margin-top: 3px; }
+.spreadsheet-card .version-tag {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--blue-100);
+  color: var(--blue-700);
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ---------- Grid tiles (dashboard main sections) ---------- */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 6px;
+}
+@media (min-width: 640px) { .tile-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .tile-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; } }
+.tile {
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  border-radius: var(--radius);
+  padding: 20px 14px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--blue-900);
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.tile .tile-icon { font-size: 26px; }
+.tile .tile-count { font-size: 12px; font-weight: 600; color: var(--gray-500); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 0 20px;
+  width: 100%;
+}
+.btn-primary { background: var(--blue-600); color: var(--white); }
+.btn-primary:active { background: var(--blue-700); }
+.btn-outline { background: var(--white); color: var(--blue-600); border: 2px solid var(--blue-600); }
+.btn-danger { background: #fee2e2; color: var(--red-600); }
+.btn-success { background: #dcfce7; color: var(--green-600); }
+.btn-sm { min-height: 38px; font-size: 13px; padding: 0 14px; width: auto; }
+.btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.btn:disabled { opacity: 0.5; }
+/* A full-width button makes sense on a 360px phone; stretched across a
+   1200px desktop panel it just looks oversized. Cap it once real width
+   is available, but let a deliberately full-bleed context (btn-row items
+   already share space via flex) size itself naturally instead. */
+@media (min-width: 640px) {
+  .content > .btn:not(.btn-sm), .center-screen > .btn:not(.btn-sm), .card > .btn:not(.btn-sm) {
+    max-width: 380px;
+  }
+  .btn-row > .btn:not(.btn-sm) { max-width: 260px; }
+}
+
+/* ---------- Forms ---------- */
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--gray-200);
+  padding: 0 14px;
+  font-size: 15px;
+  outline: none;
+  background: var(--white);
+}
+@media (min-width: 640px) {
+  .form-group input, .form-group select, .form-group textarea { max-width: 480px; }
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue-500); }
+.form-group textarea { min-height: 90px; padding: 10px 14px; }
+
+.center-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px;
+  max-width: 440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.brand-header { text-align: center; margin-bottom: 26px; }
+.brand-header .logo-circle {
+  width: 64px; height: 64px; border-radius: 18px;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 24px; margin: 0 auto 14px;
+}
+.brand-header h1 { font-size: 19px; color: var(--blue-900); margin: 0 0 4px; }
+.brand-header p { font-size: 13px; color: var(--gray-500); margin: 0; }
+
+.alert { border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13.5px; margin-bottom: 14px; }
+.alert-error { background: #fee2e2; color: var(--red-600); }
+.alert-success { background: #dcfce7; color: var(--green-600); }
+.alert-info { background: var(--blue-50); color: var(--blue-700); }
+
+/* ---------- Bottom nav (mobile/tablet) → Sidebar (desktop) ----------
+   Below 1024px this is a fixed bottom bar (the standard, expected mobile
+   pattern the spec explicitly calls out). At 1024px+ the exact same
+   markup becomes a fixed left sidebar — a desktop navigation layout,
+   per spec — via CSS alone, no JS/markup change needed. */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1600px;
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+  z-index: 20;
+}
+.nav-item {
+  flex: 1;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--gray-500);
+  padding: 6px 0;
+  border-radius: 10px;
+  min-height: 44px;
+}
+.nav-item .nav-icon { font-size: 19px; }
+.nav-item.active { color: var(--blue-600); background: var(--blue-50); }
+
+@media (min-width: 1024px) {
+  .bottom-nav {
+    position: fixed;
+    top: 0;
+    left: auto;
+    bottom: 0;
+    right: auto;
+    transform: none;
+    width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 4px;
+    border-top: none;
+    border-right: 1px solid var(--gray-200);
+    padding: 96px 14px 24px;
+    z-index: 15; /* below .topbar's 20, so the sticky header paints over the sidebar in their small overlapping corner instead of covering it */
+  }
+  /* Anchor the sidebar to the actual #app panel (which centers itself
+     on very wide screens) rather than the raw viewport edge. */
+  #app > .bottom-nav { position: absolute; }
+  .nav-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    padding: 12px 14px;
+    min-height: 46px;
+  }
+  .nav-item .nav-icon { font-size: 20px; }
+}
+
+/* ---------- Back header ---------- */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-200);
+  position: sticky;
+  top: 0;
+  background: var(--white);
+  z-index: 15;
+}
+.page-header h2 { font-size: 16px; margin: 0; color: var(--blue-900); }
+/* Bleeds to the edges of .content's own padding at each breakpoint, so
+   the header divider always reaches the visual edge instead of leaving
+   a gap once .content's padding grows past the old hardcoded 16px. */
+.page-header-bleed { margin: -16px -16px 16px; }
+@media (min-width: 768px) { .page-header-bleed { margin: -22px -32px 16px; padding-left: 32px; padding-right: 32px; } }
+@media (min-width: 1024px) { .page-header-bleed { margin: -28px -40px 16px; padding-left: 40px; padding-right: 40px; } }
+.back-btn {
+  width: 42px; height: 42px; min-width: 42px; border-radius: 50%; border: none;
+  background: var(--blue-50); color: var(--blue-700); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---------- Tables / rows ---------- */
+.row-checkbox-list .student-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.row-checkbox-list input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--blue-600); }
+.student-row .info { flex: 1; }
+.student-row .info .name { font-weight: 600; font-size: 14px; }
+.student-row .info .scores { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+.select-all-row {
+  display: flex; align-items: center; gap: 10px; padding: 10px 6px;
+  font-weight: 700; font-size: 13.5px; color: var(--blue-900);
+  border-bottom: 2px solid var(--blue-100);
+}
+
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; }
+.tab-btn {
+  border: none; background: var(--gray-50); color: var(--gray-700);
+  padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  white-space: nowrap;
+}
+.tab-btn.active { background: var(--blue-600); color: var(--white); }
+
+.empty-state { text-align: center; color: var(--gray-500); font-size: 13.5px; padding: 40px 20px; }
+
+.audit-row { padding: 10px 4px; border-bottom: 1px solid var(--gray-200); font-size: 13px; }
+.audit-row .action { font-weight: 700; color: var(--blue-900); }
+.audit-row .time { color: var(--gray-500); font-size: 11.5px; margin-top: 2px; }
+
+.spinner {
+  width: 28px; height: 28px; border: 3px solid var(--blue-100);
+  border-top-color: var(--blue-600); border-radius: 50%;
+  animation: spin 0.8s linear infinite; margin: 30px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(15,23,42,0.5);
+  display: flex; align-items: flex-end; z-index: 50;
+}
+.modal-sheet {
+  background: var(--white); width: 100%; max-width: 480px; margin: 0 auto;
+  border-radius: 20px 20px 0 0; padding: 22px 18px calc(22px + env(safe-area-inset-bottom));
+  max-height: 88vh; overflow-y: auto;
+}
+@media (min-width: 768px) { .modal-backdrop { align-items: center; } .modal-sheet { max-width: 440px; border-radius: 20px; max-height: 85vh; } }
+.modal-sheet h3 { margin: 0 0 10px; color: var(--blue-900); }
+
+/* ---------- Wizard steps ---------- */
+.wizard-step { margin-bottom: 22px; }
+.wizard-step h4 { font-size: 13.5px; color: var(--blue-900); margin: 0 0 8px; }
+.checkbox-list { max-height: 260px; overflow-y: auto; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); }
+.checkbox-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--gray-200); font-size: 13.5px; }
+.checkbox-row:last-child { border-bottom: none; }
+.checkbox-row input { width: 20px; height: 20px; accent-color: var(--blue-600); }
+.select-all-inline { display: flex; align-items: center; gap: 8px; padding: 8px 0; font-weight: 700; font-size: 13px; color: var(--blue-900); }
+
+/* ---------- Spreadsheet editor ---------- */
+.sheet-header-card {
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  border-radius: var(--radius);
+  padding: 14px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.sheet-header-card .school-name { font-weight: 800; color: var(--blue-900); font-size: 15px; }
+.sheet-header-card .school-address { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+.sheet-header-card .meta-row { display: flex; justify-content: center; gap: 14px; margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--blue-700); flex-wrap: wrap; }
+
+.save-indicator { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; display: inline-block; margin-bottom: 10px; }
+.save-indicator.saving { background: #fef3c7; color: var(--amber-500); }
+.save-indicator.saved { background: #dcfce7; color: var(--green-600); }
+.save-indicator.error { background: #fee2e2; color: var(--red-600); }
+
+.sheet-scroll-wrap { position: relative; margin: 0 -16px; }
+@media (min-width: 768px) { .sheet-scroll-wrap { margin: 0 -32px; } }
+@media (min-width: 1024px) { .sheet-scroll-wrap { margin: 0 -40px; } }
+.sheet-scroll {
+  overflow-x: auto;
+  padding: 0 16px 10px;
+  -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 768px) { .sheet-scroll { padding: 0 32px 10px; } }
+@media (min-width: 1024px) { .sheet-scroll { padding: 0 40px 10px; } }
+.sheet-table { border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+.sheet-table th, .sheet-table td {
+  border: 1px solid var(--gray-200);
+  padding: 6px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+.sheet-table th {
+  background: var(--blue-50);
+  color: var(--blue-900);
+  font-size: 10.5px;
+  position: sticky;
+  top: 0;
+}
+.sheet-table td.name-cell, .sheet-table th.name-cell {
+  position: sticky;
+  left: 0;
+  background: var(--white);
+  z-index: 2;
+  text-align: left;
+  font-weight: 600;
+  min-width: 130px;
+}
+.sheet-table th.name-cell { background: var(--blue-50); z-index: 3; }
+
+.score-input { width: 42px; border: 1px solid var(--gray-200); border-radius: 6px; text-align: center; padding: 3px; font-size: 12px; }
+.score-input.invalid { border-color: var(--red-600); background: #fee2e2; }
+.score-input:disabled { background: var(--gray-50); color: var(--gray-500); }
+
+/* Desktop has real width to spare — widen the working columns and bump
+   text a touch for comfortable reading instead of keeping everything at
+   phone-cramped sizing just because the table happens to scroll. */
+@media (min-width: 1024px) {
+  .sheet-table { font-size: 13px; }
+  .sheet-table th, .sheet-table td { padding: 8px 10px; }
+  .sheet-table th { font-size: 11.5px; }
+  .score-input { width: 56px; font-size: 13px; padding: 5px; }
+  .remark-textarea { width: 260px; }
+}
+
+.psy-ticks { display: flex; gap: 2px; justify-content: center; }
+.psy-tick {
+  width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--gray-200);
+  background: var(--white); font-size: 10px; font-weight: 700; color: var(--gray-500);
+  display: flex; align-items: center; justify-content: center; padding: 0;
+}
+.psy-tick.selected { background: var(--blue-600); border-color: var(--blue-600); color: var(--white); }
+.psy-tick:disabled { opacity: 0.5; }
+
+.remark-cell { min-width: 220px; white-space: normal; }
+.remark-textarea {
+  width: 210px; min-height: 60px; font-size: 11.5px; border: 1px solid var(--gray-200);
+  border-radius: 6px; padding: 6px; resize: vertical;
+}
+.ai-assist-btn {
+  font-size: 10.5px; font-weight: 700; color: var(--blue-600); background: var(--blue-50);
+  border: none; border-radius: 6px; padding: 3px 8px; margin-top: 4px;
+}
+
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(37, 99, 235, 0.55);
+  color: var(--white);
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+}
+.scroll-arrow.left { left: 4px; }
+.scroll-arrow.right { right: 4px; }
+
+.lock-btn {
+  width: 100%; min-height: 56px; border-radius: var(--radius); border: none;
+  font-weight: 800; font-size: 16px; margin: 14px 0;
+}
+.lock-btn.unlocked { background: var(--blue-600); color: var(--white); }
+.lock-btn.locked { background: #dcfce7; color: var(--green-600); }
+
+.attendance-bar {
+  display: flex; align-items: center; gap: 10px; background: var(--blue-50);
+  border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.attendance-bar label { font-size: 12.5px; font-weight: 700; color: var(--blue-900); }
+.attendance-bar input { width: 70px; min-height: 36px; border-radius: 8px; border: 1px solid var(--gray-200); text-align: center; }
+
+/* ---------- Floating step wizard (student first-login) ---------- */
+.wizard-overlay {
+  position: fixed; inset: 0; background: rgba(15,23,42,0.55);
+  display: flex; align-items: center; justify-content: center; z-index: 60; padding: 16px;
+}
+.wizard-card {
+  background: var(--white); border-radius: 22px; padding: 26px 22px;
+  width: 100%; max-width: 420px; box-shadow: 0 10px 40px rgba(15,23,42,0.25);
+  max-height: 90vh; overflow-y: auto;
+}
+.wizard-progress { display: flex; gap: 6px; margin-bottom: 20px; }
+.wizard-progress .dot { flex: 1; height: 5px; border-radius: 3px; background: var(--gray-200); }
+.wizard-progress .dot.done, .wizard-progress .dot.active { background: var(--blue-600); }
+.wizard-card h3 { color: var(--blue-900); margin: 0 0 4px; font-size: 18px; }
+.wizard-card p.wizard-sub { color: var(--gray-500); font-size: 13px; margin: 0 0 18px; }
+.wizard-nav-row { display: flex; gap: 10px; margin-top: 6px; }
+.wizard-nav-row .btn { min-height: 52px; }
+.wizard-photo-preview {
+  width: 120px; height: 120px; border-radius: 50%; background: var(--blue-50);
+  border: 2px dashed var(--blue-200, var(--blue-100)); display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; overflow: hidden; color: var(--blue-600); font-size: 13px; text-align: center;
+}
+.wizard-photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Floating help button ---------- */
+.help-fab {
+  position: fixed; bottom: 78px; right: 18px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+  color: var(--white); border: none; font-size: 24px;
+  box-shadow: 0 6px 18px rgba(29,78,216,0.4);
+  z-index: 25; display: flex; align-items: center; justify-content: center;
+}
+@media (min-width: 1024px) { .help-fab { bottom: 28px; right: 28px; } }
+
+/* ---------- Report card cards + full report ---------- */
+.report-card-tile {
+  background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius);
+  padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow);
+}
+.report-card-tile .rc-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.report-card-tile .rc-term { font-weight: 800; color: var(--blue-900); font-size: 15.5px; }
+.report-card-tile .rc-meta { font-size: 12px; color: var(--gray-500); margin-top: 3px; }
+.report-card-tile .rc-pct { font-size: 22px; font-weight: 800; color: var(--blue-600); }
+.report-card-tile .rc-grade { font-size: 12px; font-weight: 700; color: var(--gray-500); text-align: right; }
+
+.rc-detail-header { text-align: center; margin-bottom: 18px; }
+.rc-detail-photo { width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 10px; overflow: hidden; background: var(--blue-100); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--blue-700); font-size: 24px; }
+.rc-detail-photo img { width: 100%; height: 100%; object-fit: cover; }
+.rc-stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+.rc-stat { background: var(--blue-50); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+.rc-stat .label { font-size: 10.5px; color: var(--gray-500); font-weight: 700; text-transform: uppercase; }
+.rc-stat .value { font-size: 17px; font-weight: 800; color: var(--blue-900); margin-top: 2px; }
+
+.rc-subject-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 10px 0; }
+.rc-subject-table th, .rc-subject-table td { border: 1px solid var(--gray-200); padding: 8px; text-align: center; }
+.rc-subject-table th { background: var(--blue-50); color: var(--blue-900); font-size: 11px; }
+
+.rc-psy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0; }
+.rc-psy-item { display: flex; justify-content: space-between; background: var(--gray-50); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; }
+.rc-psy-item b { color: var(--blue-700); }
+
+.rc-comment-box { background: var(--blue-50); border-radius: var(--radius-sm); padding: 14px; font-size: 13.5px; color: var(--gray-700); margin-top: 8px; }
+
+/* ---------- Report card print system ----------
+   The print-only elements (.print-only) are hidden on screen and revealed
+   only inside @media print — this is the actual mechanism behind "the
+   online view and the printed view are intentionally different": one DOM,
+   two renderings, controlled entirely by CSS media queries. */
+.print-only { display: none; }
+.rc-print-sheet { background: var(--white); }
+.rc-print-actions { display: flex; gap: 10px; margin-bottom: 14px; }
+
+@media print {
+  body * { visibility: hidden; }
+  .rc-print-sheet, .rc-print-sheet * { visibility: visible; }
+  .rc-print-sheet { position: absolute; top: 0; left: 0; width: 100%; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  @page { size: A4; margin: 14mm; }
+}
+
+.rc-print-header { text-align: center; border-bottom: 2px solid var(--blue-700); padding-bottom: 10px; margin-bottom: 14px; }
+.rc-print-header .school-name { font-size: 20px; font-weight: 800; color: var(--blue-900); }
+.rc-print-header .school-address { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+.rc-print-header .doc-title { font-size: 13px; font-weight: 700; color: var(--gray-900); margin-top: 6px; }
+
+.rc-print-identity { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+.rc-print-photo { width: 84px; height: 84px; border-radius: 8px; border: 1px solid var(--gray-200); overflow: hidden; background: var(--blue-50); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--blue-700); flex-shrink: 0; }
+.rc-print-photo img { width: 100%; height: 100%; object-fit: cover; }
+.rc-print-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 16px; font-size: 12px; flex: 1; }
+.rc-print-fields b { color: var(--gray-700); }
+.rc-print-name { font-size: 16px; font-weight: 800; color: var(--blue-900); grid-column: 1 / -1; margin-bottom: 4px; }
+
+.rc-print-table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-bottom: 14px; }
+.rc-print-table th, .rc-print-table td { border: 1px solid var(--gray-300, var(--gray-200)); padding: 5px 7px; text-align: center; }
+.rc-print-table th { background: var(--blue-50); color: var(--blue-900); }
+.rc-print-table td:first-child, .rc-print-table th:first-child { text-align: left; }
+
+.rc-print-key { font-size: 8.5px; color: var(--gray-500); margin-bottom: 14px; }
+
+.rc-print-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 14px; }
+.rc-print-stat { background: var(--blue-50); border-radius: 6px; padding: 6px; text-align: center; }
+.rc-print-stat .l { font-size: 7.5px; font-weight: 700; color: var(--blue-700); text-transform: uppercase; }
+.rc-print-stat .v { font-size: 13px; font-weight: 800; color: var(--gray-900); }
+
+.rc-print-psy-table { width: 100%; border-collapse: collapse; font-size: 10.5px; margin-bottom: 14px; }
+.rc-print-psy-table th, .rc-print-psy-table td { border: 1px solid var(--gray-200); padding: 4px; text-align: center; }
+.rc-print-psy-table th { background: var(--blue-50); }
+.rc-print-psy-table td:first-child { text-align: left; }
+.rc-print-psy-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--blue-700); margin: 0 auto; }
+
+.rc-print-section-label { font-size: 10.5px; font-weight: 700; color: var(--blue-900); text-transform: uppercase; letter-spacing: 0.3px; margin: 10px 0 4px; }
+.rc-print-comment-box { border: 1px solid var(--gray-200); border-radius: 4px; padding: 8px; font-size: 11.5px; min-height: 34px; margin-bottom: 10px; }
+.rc-print-blank-box { border: 1px solid var(--gray-200); border-radius: 4px; min-height: 70px; margin-bottom: 12px; }
+.rc-print-line-field { margin-bottom: 14px; }
+.rc-print-line-field .fl { font-size: 10px; font-weight: 700; color: var(--gray-700); display: block; margin-bottom: 14px; border-bottom: 1px solid var(--gray-900); padding-bottom: 2px; }
+
+/* ---------- Landscape phones/tablets ----------
+   Short-height landscape (typical phone rotated) benefits most on the
+   spreadsheet screen — reclaim vertical chrome so more of the table is
+   visible without scrolling, per the explicit landscape requirement. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .topbar { padding: 8px 16px 6px; }
+  .search-bar { margin-top: 6px; padding: 6px 12px; }
+  .content { padding-top: 10px; padding-bottom: 66px; }
+  .sheet-header-card { padding: 8px; margin-bottom: 8px; }
+  .sheet-header-card .school-address { display: none; }
+  .sheet-header-card .meta-row { margin-top: 4px; }
+  .bottom-nav { padding-top: 4px; padding-bottom: 4px; }
+  .nav-item { padding: 3px 0; font-size: 9px; min-height: 38px; }
+  .nav-item .nav-icon { font-size: 15px; }
+  .wizard-card, .modal-sheet { max-height: 94vh; }
+  .center-screen { padding: 14px 28px; justify-content: flex-start; }
+  .brand-header { margin-bottom: 12px; }
+  .brand-header .logo-circle { width: 44px; height: 44px; margin-bottom: 6px; }
+}
+
+/* ---------- Large desktop refinement ---------- */
+@media (min-width: 1280px) {
+  .content { padding-left: 48px; padding-right: 48px; }
+  .page-header-bleed { margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; }
+  .sheet-scroll-wrap { margin-left: -48px; margin-right: -48px; }
+  .sheet-scroll { padding-left: 48px; padding-right: 48px; }
+}
