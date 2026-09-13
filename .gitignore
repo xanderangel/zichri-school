@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.db
+*.db-journal
+storage/profile_images/*
+!storage/profile_images/.gitkeep
+storage/school_logo/*
+!storage/school_logo/.gitkeep
+storage/report_cards/*
+!storage/report_cards/.gitkeep
